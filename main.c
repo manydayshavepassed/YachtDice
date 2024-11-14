@@ -56,6 +56,11 @@ int main() {
     printf("Welcome to Yacht Dice!\n");
 
     for (int turn = 0; turn < NUM_CATEGORIES; turn++) {
+	// 각 라운드 시작 시 keep 배열 초기화
+	for (i = 0; i < NUM_DICE; i++) {
+    	keep[i] = 0;
+	}
+	    
         // 주사위 굴리기 최대 3번
         for (rolls = 0; rolls < 3; rolls++) {
             rollDice(dice, keep);
@@ -71,18 +76,22 @@ int main() {
             }
         }
 
-        // 카테고리 선택 및 점수 계산
-        printf("Choose a category (1:Ones, 2:Twos, 3:Threes, 4:Fours, 5:Fives, 6:Sixes, 7:Yacht, 8:Four of a Kind, 9:Full House, 10:Little Straight, 11:Big Straight, 12:Choice): ");
-        scanf("%d", &category);
-        category--; // 배열 인덱스 맞추기
+        chosen = 1;
+	while (chosen) {
+    		// 카테고리 선택 및 점수 계산
+    		printf("Choose a category (1:Ones, 2:Twos, 3:Threes, 4:Fours, 5:Fives, 6:Sixes, 7:Yacht, 8:Four of a Kind, 9:Full House, 10:Little Straight, 11:Big Straight, 12:Choice): ");
+    		scanf("%d", &category);
+    		category--; // 배열 인덱스 맞추기
 
-        if (scores[category] == 0) { // 아직 선택되지 않은 카테고리
-            scores[category] = calculateScore(category, dice);
-            printf("You scored %d points in this category.\n", scores[category]);
-        } else {
-            printf("Category already chosen, try another category.\n");
-            turn--; // 다시 선택
-        }
+    		if (scores[category] == 0) { // 아직 선택되지 않은 카테고리
+        		scores[category] = calculateScore(category, dice);
+        		printf("You scored %d points in this category.\n", scores[category]);
+        		chosen = 0;
+    		}
+    		else {
+        		printf("Category already chosen, try another category.\n\n");
+    		}
+	}
     }
 
     // 최종 점수 출력
