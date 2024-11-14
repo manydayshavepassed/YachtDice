@@ -54,7 +54,7 @@ void main()
 		switch (enter_keyboard())
 		{
 		case UP:
-			gotoxy(presentCur.dwCursorPosition.X,presentCur.dwCursorPosition.Y+1);
+			gotoxy(presentCur.dwCursorPosition.X,presentCur.dwCursorPosition.Y-1);
 			break;
 		case DOWN:
 			gotoxy(presentCur.dwCursorPosition.X,presentCur.dwCursorPosition.Y+1);
