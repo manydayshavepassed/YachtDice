@@ -4,6 +4,8 @@
 
 #include <Windows.h>
 
+#include "graphics.h"
+
 #define NUM_DICE 5
 #define NUM_CATEGORIES 12
 
