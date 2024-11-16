@@ -33,6 +33,7 @@ void textcolor(int colorNum) {
 
 // 메인 함수
 int main() {
+    displayWelcomeScreen(); // 시작 화면을 표
     int dice[NUM_DICE]; // 현재 주사위 눈
     int keep[NUM_DICE] = {0}; // 유지할 주사위 표시
     int scores[NUM_CATEGORIES] = {0};
@@ -61,6 +62,7 @@ int main() {
             rollDice(dice, keep);
             printf("\nRoll %d: ", rolls + 1);
             displayDice(dice);
+	    displayAllDice(dice, NUM_DICE); //주사위 여러개를 그림으로 표
 
             // 3번째 굴림이 아닌 경우 주사위 유지 결정
             if (rolls < 2) {
@@ -124,6 +126,7 @@ int main() {
         totalScore += scores[i];
     }
     printf("Your total score is %d.\n", totalScore);
+    
 
     if (mode == 2) {
     	// 컴퓨터 최종 점수 출력
@@ -143,6 +146,7 @@ int main() {
             printf("Draw!\n");
     	}
     }
+    displayScoreboard(scores, NUM_CATEGORIES);//최종 점수 점수판에 출력
     return 0;
 }
 
@@ -159,6 +163,7 @@ void rollDice(int dice[], int keep[]) {
 void displayDice(int dice[]) {
     for (int i = 0; i < NUM_DICE; i++) {
         printf("%d ", dice[i]);
+	displayDicestar(int dice);//주사위를 별로 출력
     }
     printf("\n");
 }
