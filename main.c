@@ -21,6 +21,9 @@ int checkLittleStraight(int dice[]);
 int checkBigStraight(int dice[]);
 int calculateSum(int dice[], int num);
 
+int chooseBestCategory(int scores[], int dice[]);
+void decideKeepDice(int dice[], int keep[], int targetCategory);
+
 //UI 함수
 
 void textcolor(int colorNum) {
@@ -33,16 +36,26 @@ int main() {
     int dice[NUM_DICE]; // 현재 주사위 눈
     int keep[NUM_DICE] = {0}; // 유지할 주사위 표시
     int scores[NUM_CATEGORIES] = {0};
-    int category, rolls, i;
+    int category, rolls, i, mode;
 
     srand(time(0)); // 랜덤 시드 설정
 
     printf("Welcome to Yacht Dice!\n");
+    printf("\nEnter a number to select a mode (1: Single play, 2: VS Computer): ");
+    scanf("%d", &mode);
 
     for (int turn = 0; turn < NUM_CATEGORIES; turn++) {
+	printf("\n--- Turn %d ---\n", turn + 1);
+
+	// 플레이어 턴
+	if (mode == 2) {
+    	    printf("\nYour turn!\n");
+	}
+	    
 	for (i = 0;i < NUM_DICE; i++) {
 	    keep[i] = 0;
 	}
+	    
         // 주사위 굴리기 최대 3번
         for (rolls = 0; rolls < 3; rolls++) {
             rollDice(dice, keep);
@@ -74,6 +87,34 @@ int main() {
         	printf("Category already chosen, try another category.\n\n");
 	    }
 	}
+
+	if (mode == 2) {
+    	// 컴퓨터의 턴
+    	for (i = 0; i < NUM_DICE; i++) {
+            keep[i] = 0;
+    	}
+
+    	printf("\nComputer's turn!\n");
+    	for (i = 0; i < NUM_DICE; i++) keep[i] = 0;
+    	for (rolls = 0; rolls < 3; rolls++) {
+            rollDice(dice, keep);
+            printf("\nComputer's Roll %d: ", rolls + 1);
+            displayDice(dice);
+
+            if (rolls < 2) {
+                int targetCategory = chooseBestCategory(computerScores, dice);
+                decideKeepDice(dice, keep, targetCategory);
+            }
+    	}
+
+    	int bestCategory = chooseBestCategory(computerScores, dice);
+    	if (computerScores[bestCategory] == 0) {
+            computerScores[bestCategory] = calculateScore(bestCategory, dice);
+            printf("Computer scored %d points in category %d.\n", computerScores[bestCategory], bestCategory + 1);
+    	}
+    	else {
+            printf("Category already chosen by computer.\n");
+        }
     }
 
     // 최종 점수 출력
@@ -84,6 +125,24 @@ int main() {
     }
     printf("Your total score is %d.\n", totalScore);
 
+    if (mode == 2) {
+    	// 컴퓨터 최종 점수 출력
+    	int Com_totalScore = 0;
+    	for (i = 0; i < NUM_CATEGORIES; i++) {
+            Com_totalScore += computerScores[i];
+    	}
+    	printf("Computer's total score is %d.\n", Com_totalScore);
+
+    	if (totalScore > Com_totalScore) {
+        printf("You Won!\n");
+    	}
+    	else if (totalScore < Com_totalScore) {
+            printf("You Lost!\n");
+    	}
+    	else {
+            printf("Draw!\n");
+    	}
+    }
     return 0;
 }
 
@@ -195,5 +254,71 @@ int checkBigStraight(int dice[]) {
     {
         int result = counts[i]*counts[i+1]*counts[i+2]*counts[i+3]*counts[i+4];
         if (result != 0) return counts[i]&&counts[i+1]&&counts[i+2]&&counts[i+3]&&counts[i+4];
+    }
+}
+
+// 컴퓨터 최적 카테고리 선택
+int chooseBestCategory(int scores[], int dice[]) {
+    int maxScore = -1;
+    int bestCategory = -1;
+    for (int i = 0; i < NUM_CATEGORIES; i++) {
+        if (scores[i] == 0) {
+            int score = calculateScore(i, dice);
+            if (score > maxScore) {
+                maxScore = score;
+                bestCategory = i;
+            }
+        }
+    }
+    return bestCategory;
+}
+
+// 컴퓨터 주사위 킵 결정
+void decideKeepDice(int dice[], int keep[], int targetCategory) {
+    int counts[6] = { 0 };
+    for (int i = 0; i < NUM_DICE; i++) {
+        counts[dice[i] - 1]++;
+    }
+
+    switch (targetCategory) {
+    case 6: // Yacht: 모든 주사위 값이 같도록 유지
+        for (int i = 0; i < NUM_DICE; i++) {
+            keep[i] = (dice[i] == dice[0]);
+        }
+        break;
+
+    case 7: // Four of a Kind: 최대 값 유지
+        for (int i = 0; i < 6; i++) {
+            if (counts[i] >= 2) {
+                for (int j = 0; j < NUM_DICE; j++) {
+                    keep[j] = (dice[j] == i + 1);
+                }
+                break;
+            }
+        }
+        break;
+
+    case 8: // Full House: 3개와 2개의 조합 유지
+        for (int i = 0; i < 6; i++) {
+            if (counts[i] >= 3) {
+                for (int j = 0; j < NUM_DICE; j++) {
+                    keep[j] = (dice[j] == i + 1);
+                }
+            }
+        }
+        for (int i = 0; i < 6; i++) {
+            if (counts[i] == 2) {
+                for (int j = 0; j < NUM_DICE; j++) {
+                    keep[j] = (dice[j] == i + 1);
+                }
+            }
+        }
+        break;
+
+    default: // Ones ~ Sixes
+        for (int i = 0; i < NUM_DICE; i++) {
+            keep[i] = (dice[i] == targetCategory + 1);
+        }
+        break;
     }
 }
