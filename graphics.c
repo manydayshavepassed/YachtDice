@@ -77,7 +77,7 @@ void displayScoreboard(int scores[], int numCategories) {
         }
     }
     printf("============================\n");
-
+}
 //시작 할 때 게임 제목 출력
 void displayWelcomeScreen() {
     printf("================================\n");
