@@ -353,10 +353,10 @@ int main()
                 int score = calculateScore(i, dice);
 
                 // Yacht 우선 선택, 단 Yacht 조건을 만족해야 선택
-                if (i == 6 && checkYacht(dice))
+                if(i == 6 && checkYacht(dice))
                 { // Yacht
                     maxScore = score;
-                    bestCategory = i;
+                    bestCategory = i; 
                     break; // Yacht가 선택되면 종료
                 }
 
@@ -387,7 +387,7 @@ int main()
         }
 
         // Full House가 가능하면 선택
-        if (bestCategory == -1 && scores[8] == 0)
+        else if (bestCategory == -1 && scores[8] == 0)
         {
             if (checkFullHouse(dice))
             {
@@ -397,7 +397,7 @@ int main()
         }
 
         // 특수 카테고리 조건을 만족하지 못하면 Ones~Sixes 또는 Choice 선택
-        if (bestCategory == -1)
+        else if (bestCategory == -1)
         {
             // Ones ~ Sixes 또는 Choice 중 하나를 선택
             for (int i = 0; i < 6; i++)
@@ -417,15 +417,12 @@ int main()
             if (bestCategory == -1 && scores[11] == 0)
             {
                 int score = calculateScore(11, dice); // Choice
-                if (score > maxScore)
-                {
-                    bestCategory = 11;
-                }
+                if (score > maxScore) bestCategory = 11;
             }
         }
 
         // 특수 카테고리나 Ones ~ Sixes, Choice를 선택할 수 없다면 남은 카테고리 중 하나 선택
-        if (bestCategory == -1)
+        else if (bestCategory == -1)
         {
             for (int i = 0; i < NUM_CATEGORIES; i++)
             {
@@ -458,99 +455,97 @@ int main()
 
         switch (targetCategory)
         {
-        case 6: // Yacht (모든 눈이 같을 때)
-        {
-            for (int i = 0; i < NUM_DICE; i++)
+            case 6: // Yacht (모든 눈이 같을 때)
             {
-                keep[i] = (dice[i] == dice[0]);
-            }
-            break;
-        }
-
-
-        case 7: // Four of a Kind (4개의 같은 눈)
-        
-            for (int i = 0; i < 6; i++)
-            {
-                if (counts[i] >= 4)
+                for (int i = 0; i < NUM_DICE; i++)
                 {
-                    for (int j = 0; j < NUM_DICE; j++)
-                    {
-                        keep[j] = (dice[j] == i + 1);
-                    }
-                    break;
+                    keep[i] = (dice[i] == dice[0]);
                 }
+            }
+            case 7: // Four of a Kind (4개의 같은 눈)
+            
+                for (int i = 0; i < 6; i++)
+                {
+                    if (counts[i] >= 4)
+                    {
+                        for (int j = 0; j < NUM_DICE; j++)
+                        {
+                            keep[j] = (dice[j] == i + 1);
+                        }
+                        break;
+                    }
+                }
+                
+
+            case 8: // Full House (3개, 2개)
+            {
+                int three = -1, two = -1;
+                for (int i = 0; i < 6; i++)
+                {
+                    if (counts[i] >= 3)
+                        three = i + 1;
+                    if (counts[i] == 2)
+                        two = i + 1;
+                }
+                for (int i = 0; i < NUM_DICE; i++)
+                {
+                    if (dice[i] == three || dice[i] == two)
+                        keep[i] = 1;
+                }
+                break;
             }
             
 
-        case 8: // Full House (3개, 2개)
-        {
-            int three = -1, two = -1;
-            for (int i = 0; i < 6; i++)
-            {
-                if (counts[i] >= 3)
-                    three = i + 1;
-                if (counts[i] == 2)
-                    two = i + 1;
-            }
-            for (int i = 0; i < NUM_DICE; i++)
-            {
-                if (dice[i] == three || dice[i] == two)
-                    keep[i] = 1;
-            }
-            break;
-        }
-        
-
-        case 9: // Little Straight (4개 연속 숫자)
-        {            
-            for (int i = 1; i <= 4; i++)
-            {
-                for (int j = 0; j < NUM_DICE; j++)
+            case 9: // Little Straight (4개 연속 숫자)
+            {            
+                for (int i = 1; i <= 4; i++)
                 {
-                    if (dice[j] == i)
-                        keep[j] = 1;
+                    for (int j = 0; j < NUM_DICE; j++)
+                    {
+                        if (dice[j] == i)
+                            keep[j] = 1;
+                    }
                 }
+                break;
             }
-            break;
-        }
 
-        case 10: // Big Straight (5개 연속 숫자)
-        {
-            for (int i = 2; i <= 6; i++)
+            case 10: // Big Straight (5개 연속 숫자)
             {
-                for (int j = 0; j < NUM_DICE; j++)
+                for (int i = 2; i <= 6; i++)
                 {
-                    if (dice[j] == i)
-                        keep[j] = 1;
+                    for (int j = 0; j < NUM_DICE; j++)
+                    {
+                        if (dice[j] == i)
+                            keep[j] = 1;
+                    }
                 }
+                break;
             }
-            break;
-        }
 
 
-        case 11: // Choice (최고값을 선택)
-        {
-            int maxVal = 0;
-            for (int i = 0; i < NUM_DICE; i++)
+            case 11: // Choice (최고값을 선택)
             {
-                if (dice[i] > maxVal)
-                    maxVal = dice[i];
+                int maxVal = 0;
+                for (int i = 0; i < NUM_DICE; i++)
+                {
+                    if (dice[i] > maxVal)
+                        maxVal = dice[i];
+                }
+                for (int i = 0; i < NUM_DICE; i++)
+                {
+                    keep[i] = (dice[i] == maxVal);
+                }
+                break;
             }
-            for (int i = 0; i < NUM_DICE; i++)
-            {
-                keep[i] = (dice[i] == maxVal);
-            }
-            break;
-        }
-        
+            
 
-        default: // Ones ~ Sixes (숫자에 맞는 주사위 선택)
-        {
-            for (int i = 0; i < NUM_DICE; i++)
+            default: // Ones ~ Sixes (숫자에 맞는 주사위 선택)
             {
-                keep[i] = (dice[i] == targetCategory + 1);
+                for (int i = 0; i < NUM_DICE; i++)
+                {
+                    keep[i] = (dice[i] == targetCategory + 1);
+                }
+                break;
             }
-            break;
-        }
     }
+}
