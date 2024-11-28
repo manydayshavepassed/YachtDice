@@ -30,11 +30,23 @@ void textcolor(int colorNum) {
     SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), colorNum);
 }
 
-// 열거형 색상 정의
 enum ColorType {
-    BLACK, darkBLUE, DarkGreen, darkSkyBlue, DarkRed,
-    DarkPurple, DarkYellow, GRAY, DarkGray, BLUE,
-    GREEN, SkyBlue, RED, PURPLE, YELLOW, WHITE
+    BLACK,  	//0
+    darkBLUE,	//1
+    DarkGreen,	//2
+    darkSkyBlue,    //3
+    DarkRed,  	//4
+    DarkPurple,	//5
+    DarkYellow,	//6
+    GRAY,		//7
+    DarkGray,	//8
+    BLUE,		//9
+    GREEN,		//10
+    SkyBlue,	//11
+    RED,		//12
+    PURPLE,		//13
+    YELLOW,		//14
+    WHITE		//15
 } COLOR;
 
 // 메인 함수
@@ -47,7 +59,7 @@ int main() {
 
 
     // 배열 초기화: 모든 카테고리를 미사용 상태로 설정
-    for (int i = 0; i < NUM_CATEGORIES; i++) {
+    for (i = 0; i < NUM_CATEGORIES; i++) {
         playerScores[i] = -1;
         computerScores[i] = -1;
     }
@@ -137,7 +149,7 @@ int main() {
 
     // 최종 점수 계산
     int totalPlayerScore = 0, totalComputerScore = 0;
-    for (int i = 0; i < NUM_CATEGORIES; i++) {
+    for (i = 0; i < NUM_CATEGORIES; i++) {
         if (playerScores[i] != -1) totalPlayerScore += playerScores[i];
         if (computerScores[i] != -1) totalComputerScore += computerScores[i];
     }
@@ -169,7 +181,7 @@ int main() {
 
 // 주사위 굴리기
 void rollDice(int dice[], int keep[]) {
-    for (int i = 0; i < NUM_DICE; i++) {
+    for (i = 0; i < NUM_DICE; i++) {
         if (keep[i] == 0) {
             dice[i] = rand() % 6 + 1; // 1 ~ 6
         }
