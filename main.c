@@ -169,7 +169,6 @@ int main()
             }
         }
         displayScoreboard(scores, NUM_CATEGORIES); // 최종 점수 점수판에 출력
-        return 0;
     }
 }
 
