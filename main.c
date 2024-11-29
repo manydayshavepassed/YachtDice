@@ -161,7 +161,7 @@ int checkFourOfAKind(int dice[]) {
     }
     for (int i = 0; i < 6; i++) {
         if (counts[i] >= 4) {
-            return i * 4;
+            return (i + 1) * 4;
         }
     }
     return 0;
