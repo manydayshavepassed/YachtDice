@@ -46,7 +46,7 @@ void setColor(int color) {
 // 주사위 출력 함수 (커서와 선택 상태 표시)
 void displayDiceWithCursor(int dice[], int keep[], int cursor) {
     system("cls"); // 화면 초기화
-    printf("Use arrow keys to move, SPACE to toggle selection, ENTER to confirm, ESC to exit.\n");
+    printf("Use arrow keys to move, SPACE to toggle selection, ENTER to confirm.\n");
 
     for (int i = 0; i < NUM_DICE; i++) {
         if (i == cursor) {
@@ -113,10 +113,6 @@ void handleDiceSelection(int dice[], int keep[]) {
                 Sleep(2000); // 2초 대기 후 종료
                 running = 0;
             }
-        } else if (key == ESC) {
-            printf("Exiting dice selection...\n");
-            Sleep(2000); // 2초 대기 후 종료
-            running = 0;
         }
     }
 }
