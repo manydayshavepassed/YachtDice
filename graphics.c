@@ -1,61 +1,58 @@
 #include <stdio.h>
 
-// 주사위 숫자를 * 로 표현해서 나타내는 함수
-void displayDicestar(int dice) {
-    switch (dice) {
-        case 1:
-            printf("*********\n");
-            printf("*       *\n");
-            printf("*   *   *\n");
-            printf("*       *\n");
-            printf("*********\n");
-            break;
-        case 2:
-            printf("*********\n");
-            printf("* *     *\n");
-            printf("*       *\n");
-            printf("*     * *\n");
-            printf("*********\n");
-            break;
-        case 3:
-            printf("*********\n");
-            printf("* *     *\n");
-            printf("*   *   *\n");
-            printf("*     * *\n");
-            printf("*********\n");
-            break;
-        case 4:
-            printf("*********\n");
-            printf("* *   * *\n");
-            printf("*       *\n");
-            printf("* *   * *\n");
-            printf("*********\n");
-            break;
-        case 5:
-            printf("*********\n");
-            printf("* *   * *\n");
-            printf("*   *   *\n");
-            printf("* *   * *\n");
-            printf("*********\n");
-            break;
-        case 6:
-            printf("*********\n");
-            printf("* *   * *\n");
-            printf("* *   * *\n");
-            printf("* *   * *\n");
-            printf("*********\n");
-            break;
-        default:
-            printf("Invalid dice number!\n");
-            break;
+// 주사위 숫자 패턴을 정의
+const char* dicePatterns[6][5] = {
+    {
+        "*********",
+        "*       *",
+        "*   *   *",
+        "*       *",
+        "*********"
+    },
+    {
+        "*********",
+        "* *     *",
+        "*       *",
+        "*     * *",
+        "*********"
+    },
+    {
+        "*********",
+        "* *     *",
+        "*   *   *",
+        "*     * *",
+        "*********"
+    },
+    {
+        "*********",
+        "* *   * *",
+        "*       *",
+        "* *   * *",
+        "*********"
+    },
+    {
+        "*********",
+        "* *   * *",
+        "*   *   *",
+        "* *   * *",
+        "*********"
+    },
+    {
+        "*********",
+        "* *   * *",
+        "* *   * *",
+        "* *   * *",
+        "*********"
     }
-}
+};
 
-//주사위 여러개를 동시에 그림으로 표시하는 코드
-void displayAllDice(int dice[], int numDice) {
-    for (int i = 0; i < numDice; i++) {
-        displayDicestar(dice[i]);
-        printf("\n"); // 주사위 간 간격
+// 주사위를 가로로 출력하는 함수
+void displayAllDiceHorizontal(int dice[], int numDice) {
+    for (int row = 0; row < 5; row++) { // 각 주사위 패턴의 행을 출력
+        for (int i = 0; i < numDice; i++) {
+            printf("%s  ", dicePatterns[dice[i] - 1][row]); // 각 주사위의 해당 행 출력
+        }
+        printf("\n");
     }
 }
 #include <stdio.h>
