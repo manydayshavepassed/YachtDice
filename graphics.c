@@ -1,3 +1,5 @@
+#include <stdio.h>
+
 // 주사위 숫자를 * 로 표현해서 나타내는 함수
 void displayDicestar(int dice) {
     switch (dice) {
