@@ -55,7 +55,7 @@ void displayAllDiceHorizontal(int dice[], int numDice) {
         printf("\n");
     }
 }
-#include <stdio.h>
+
 
 // 점수판 출력 함수
 void displayScoreboard(int scores[], int numCategories) {
