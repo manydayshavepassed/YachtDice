@@ -310,7 +310,7 @@ int calculateScore(int category, int dice[])
     }
     case 10:
     {
-        return checkBigStraight(dice) ? 30 : 0; // Big Straight
+        return checkBigStraight(dice) ? 40 : 0; // Big Straight
     }
     case 11:
     {
@@ -357,7 +357,7 @@ int checkFourOfAKind(int dice[])
     {
         if (counts[i] >= 4)
         {
-            return i * 4;
+            return (i + 1) * 4;
         }
     }
     return 0;
