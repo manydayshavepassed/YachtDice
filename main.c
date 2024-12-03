@@ -157,10 +157,11 @@ int main()
         for (rolls = 0; rolls < 3; rolls++) {
             rollDice(dice, keep);
             printf("\nRoll %d: ", rolls + 1);
+            displayDice(dice); // 주사위를 시각적으로 출력
             
             if (rolls < 2) {
                 printf("You can choose which dice to keep or re-roll.\n");
-                Sleep(2000); // 메시지를 읽을 시간 제공
+                Sleep(3000); // 메시지를 읽을 시간 제공
                 handleDiceSelection(dice, keep); // 화살표 키를 사용해 주사위 선택
             }
         }
@@ -223,40 +224,39 @@ int main()
                 printf("Category already chosen by computer.\n");
             }
         }
-
-        // 최종 점수 출력
-        int totalScore = 0;
-        printf("\nFinal Scores:\n");
+    }
+     // 최종 점수 출력
+    int totalScore = 0;
+    printf("\nFinal Scores:\n");
+    for (i = 0; i < NUM_CATEGORIES; i++)
+    {
+        totalScore += scores[i];
+    }
+    printf("Your total score is %d.\n", totalScore);
+    if (mode == 2)
+    {
+        // 컴퓨터 최종 점수 출력
+        int Com_totalScore = 0;
         for (i = 0; i < NUM_CATEGORIES; i++)
         {
-            totalScore += scores[i];
+            Com_totalScore += computerScores[i];
         }
-        printf("Your total score is %d.\n", totalScore);
-        if (mode == 2)
-        {
-            // 컴퓨터 최종 점수 출력
-            int Com_totalScore = 0;
-            for (i = 0; i < NUM_CATEGORIES; i++)
-            {
-                Com_totalScore += computerScores[i];
-            }
-            printf("Computer's total score is %d.\n", Com_totalScore);
+        printf("Computer's total score is %d.\n", Com_totalScore);
 
-            if (totalScore > Com_totalScore)
-            {
-                printf("You Won!\n");
-            }
-            else if (totalScore < Com_totalScore)
-            {
-                printf("You Lost!\n");
-            }
-            else
-            {
-                printf("Draw!\n");
-            }
+        if (totalScore > Com_totalScore)
+        {
+            printf("You Won!\n");
         }
-        displayScoreboard(scores, NUM_CATEGORIES); // 최종 점수 점수판에 출력
+        else if (totalScore < Com_totalScore)
+        {
+            printf("You Lost!\n");
+        }
+        else
+        {
+            printf("Draw!\n");
+        }
     }
+    displayScoreboard(scores, NUM_CATEGORIES); // 최종 점수 점수판에 출력
 }
 
 // 주사위 굴리기
@@ -277,7 +277,7 @@ void displayDice(int dice[])
     for (int i = 0; i < NUM_DICE; i++)
     {
         printf("%d ", dice[i]);
-        //displayAllDiceHorizontal(dice); // 주사위를 별로 출력
+        displayAllDiceHorizontal(dice, NUM_DICE); // 주사위를 별로 출력
     }
     printf("\n");
 }
@@ -310,7 +310,7 @@ int calculateScore(int category, int dice[])
     }
     case 10:
     {
-        return checkBigStraight(dice) ? 30 : 0; // Big Straight
+        return checkBigStraight(dice) ? 40 : 0; // Big Straight
     }
     case 11:
     {
