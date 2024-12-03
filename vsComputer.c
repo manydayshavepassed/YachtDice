@@ -181,7 +181,7 @@ int main() {
 
 // 주사위 굴리기
 void rollDice(int dice[], int keep[]) {
-    for (i = 0; i < NUM_DICE; i++) {
+    for (int i = 0; i < NUM_DICE; i++) {
         if (keep[i] == 0) {
             dice[i] = rand() % 6 + 1; // 1 ~ 6
         }
