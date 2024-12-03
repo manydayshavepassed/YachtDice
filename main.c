@@ -153,6 +153,7 @@ int main()
         for (rolls = 0; rolls < 3; rolls++) {
             rollDice(dice, keep);
             printf("\nRoll %d: ", rolls + 1);
+            displayDice(dice); // 주사위를 시각적으로 출력
             
             if (rolls < 2) {
                 printf("You can choose which dice to keep or re-roll.\n");
@@ -268,13 +269,9 @@ void rollDice(int dice[], int keep[])
 }
 
 // 주사위 출력
-void displayDice(int dice[])
-{
-    for (int i = 0; i < NUM_DICE; i++)
-    {
-        printf("%d ", dice[i]);
-        //displayAllDiceHorizontal(dice); // 주사위를 별로 출력
-    }
+void displayDice(int dice[]) {
+    printf("Current dice:\n");
+    displayAllDiceHorizontal(dice, NUM_DICE); // 주사위 배열과 주사위 개수 전달
     printf("\n");
 }
 // 점수 계산 함수
