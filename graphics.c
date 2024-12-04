@@ -67,13 +67,7 @@ void displayScoreboard(int scores[], int numCategories) {
 
     printf("\n======== Scoreboard ========\n");
     for (int i = 0; i < numCategories; i++) {
-        if (scores[i] == 0) {
-            // 아직 선택되지 않은 카테고리
-            printf("%-20s: Not chosen yet\n", categories[i]);
-        } else {
-            // 이미 점수가 기록된 카테고리
-            printf("%-20s: %d points\n", categories[i], scores[i]);
-        }
+        printf("%-20s: %d points\n", categories[i], scores[i]);
     }
     printf("============================\n");
 }
